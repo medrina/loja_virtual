@@ -1,5 +1,5 @@
 # Projeto Loja Virtual
-O Projeto Loja Virtual foi desenvolvida com objetivos de aplicar os conhecimentos adquiridos durante o período da graduação do curso Tecnólogo em Análise e Desenvolvimento de Sistemas do Centro Universitário Senac.
+O Projeto Loja Virtual foi desenvolvido com objetivos de aplicar os conhecimentos adquiridos durante o período da graduação do curso Tecnólogo em Análise e Desenvolvimento de Sistemas do Centro Universitário Senac.
 
 ## Tecnologias utilizadas:
 - Frontend:
