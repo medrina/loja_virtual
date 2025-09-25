@@ -1,0 +1,56 @@
+<?php
+    require '../helper/funcoes_adicionais.php';
+    testarLogin();
+    include '../views/sections/header.html';
+    if(!empty($dadosClienteAsaas['telefone'])) $telefone = aplicarMascara($dadosClienteAsaas['telefone'], '(##) #####-####');
+    if(!empty($dadosClienteAsaas['cpf'])) $cpf = aplicarMascara($dadosClienteAsaas['cpf'], '###.###.###-##');
+?>
+<body>
+    <div class="container">
+        <div class="row">
+            <?php include_once '../views/sections/topo.phtml'; ?>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="/cliente/painel/dados-pessoais" class="btn btn-primary botao-voltar-painel">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><h5>Dados Pessoais</h5></div>
+                        <label>e-mail/login</label>
+                        <input type="email" class="form-control bg-light" value="<?= $dados['email'] ?>" readonly>
+                        <hr>
+                        <form id="form-editar-dados">
+                            <label>Nome <sup>(obrigatório)</sup></label>
+                            <input type="text" class="form-control" value="<?= $dados['nome']; ?>" name="nome">
+                            <label>Telefone <sup>(obrigatório)</sup></label>
+                            <input id="telefone-editar" type="tel" class="form-control" name="fone_" value="<?= empty($dadosClienteAsaas['telefone']) ? '' : $telefone; ?>" maxlength="15">
+                            <input id="telefone-editar_" type="hidden" hidden="true" name="fone" value="<?= empty($dadosClienteAsaas['telefone']) ? '' : $dadosClienteAsaas['telefone']; ?>">
+                            <div id="resposta-telefone"></div>
+                            <label>CPF <sup>(obrigatório)</sup></label>
+                            <input id="cpf-editar" type="tel" class="form-control" name="cpf_" value="<?= empty($dadosClienteAsaas['cpf']) ? '' : $cpf; ?>" maxlength="14">
+                            <input id="cpf-editar_" type="hidden" hidden="true" name="cpf" value="<?= empty($dadosClienteAsaas['cpf']) ? '' : $dadosClienteAsaas['cpf']; ?>">
+                            <div id="resposta-cpf"></div>
+                            <hr>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="opcao-alterar-senha">
+                                <label class="form-check-label" for="opcao-alterar-senha">Alterar Senha?</label> 
+                            </div>
+                            <div id="campos-alterar-senhas"></div>
+                            <div class="text-end mt-3">
+                                <a id="botao-salvar-dados" href="#" class="btn btn-primary">Salvar Dados</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/editar_dados_pessoais_cliente.js"></script>
+</body>

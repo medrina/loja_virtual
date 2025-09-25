@@ -1,0 +1,11 @@
+<?php
+    include '../views/sections/header.html';
+    date_default_timezone_set('America/Sao_Paulo');
+?>
+<h5>Lista de Pedidos</h5>
+<div class="mb-4 mt-4">
+    <input id="calendario" type="date" min="2025-05-01" max="<?= date("Y-m-d"); ?>" value="<?= date("Y-m-d"); ?>">
+    <button id="botao-buscar-pedidos" type="button" class="btn btn-primary">BUSCAR</button>
+</div>
+<div id="lista_pedidos" class="row"></div>
+<script src="/assets/js/lista_pedidos_adm.js"></script>

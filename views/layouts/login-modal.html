@@ -1,0 +1,25 @@
+<div class="modal  p-4 py-md-5" tabindex="-1"  id="modalSignin">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <div class="text-primary"><b>Para adicionar produtos ao seu carrinho, é necessário se logar na Loja Virtual</b>
+        </div>
+        <button id="fechar-modal-login" type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body p-5 pt-0">
+        <form id="form-modal" novalidate>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com">
+            <label for="floatingInput">Login</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password">
+            <label for="floatingPassword">Senha</label>
+            <div id="resp-modal"></div>
+          </div>
+          <button id="botao-login-modal" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<?php
+    include '../views/sections/header.html';
+    require_once '../helper/funcoes_adicionais.php';
+?>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <a href="/cliente/painel/pedidos" class="btn btn-primary">Voltar</a>
+            </div>
+            <div class="col-2">
+                <div class="float-end">
+                    <a href="/logoff" class="btn btn-danger">Sair</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <div class="text-center"><h1>Detalhes do Pedido</h1></div>
+                <div id="pedido-cliente" class="mb-3 p-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <span>Pedido: </span><span><?= $resultado['pedido'][0]['id_pedido']; ?></span>
+                            <span>Data: </span><span><?php 
+                                                        $data = $resultado['pedido'][0]['data_compra'];
+                                                        $data = explode('-', $data);
+                                                        echo $data[2].'/'.$data[1].'/'.$data[0]; 
+                                                    ?></span>
+                            <span>às <?= $resultado['pedido'][0]['hora_compra']; ?> h</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3 borda-dir">
+                            Status do Pedido: <b><?= $resultado['pedido'][0]['status_entrega']; ?></b>
+                        </div>
+                        <div class="col-3 borda-dir">
+                            Entrega em: <b><?php 
+                                                $data = $resultado['pedido'][0]['data_entrega'];
+                                                $data = explode('-', $data);
+                                                echo $data[2].'/'.$data[1].'/'.$data[0]; 
+                                            ?></b>
+                        </div>
+                        <div class="col-6">
+                            Endereço de Entrega:<br>
+                            <b><?= $resultado['pedido'][0]['logradouro']; ?></b><br>
+                            <b>Nº: <?= $resultado['pedido'][0]['numero']; ?></b><br>
+                            <?php if(!(empty($resultado['pedido'][0]['complemento']))) { ?>
+                                <b>Complemento: <?= $resultado['pedido'][0]['complemento']; ?></b><br>
+                            <?php } ?>
+                            <b><?= $resultado['pedido'][0]['bairro']; ?> - <?= $resultado['pedido'][0]['cidade']; ?> - <?= $resultado['pedido'][0]['uf']; ?></b><br>
+                            <b><?= aplicarMascara($resultado['pedido'][0]['cep'], '#####-###'); ?></b>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div>Produto(s)</div>
+                        <?php for($i = 0; $i < count($resultado['item']); $i++) { ?>
+                            <div class="col-2">
+                                <div>
+                                    <img src="/assets/img/<?= $resultado['item'][$i]['imagem_path']; ?>" width="60">
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                Produto: <?= $resultado['item'][$i]['Produto']; ?><br>
+                                Marca: <?= $resultado['item'][$i]['Marca']; ?><br>
+                                Quantidade: <?= $resultado['item'][$i]['Quant']; ?><br>
+                                Preço: <?= number_format($resultado['item'][$i]['preco_unit'],2,",","."); ?><br>
+                                Total: R$ <?= number_format($resultado['item'][$i]['Total'],2,",","."); ?>
+                            </div>
+                            <hr>
+                        <?php } ?>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6">
+                            <div>Pagamento</div>
+                            Forma: <?= $resultado['pgto']['tipo']; ?><br>
+                            <?= (isset($resultado['chave']) ? $resultado['chave'] : ''); ?>
+                            <?php if($resultado['pedido'][0]['id_modalidade'] == 2) { ?>
+                                Data Vencimento: <?php 
+                                                    $data = $resultado['pgto']['data_vencimento'];
+                                                    $data = explode('-', $data);
+                                                    echo $data[2].'/'.$data[1].'/'.$data[0];
+                                                ?><br>
+                                Status de Pagamento: <?= $resultado['pgto']['status']; ?>
+                                <br>
+                            <?php } ?>
+                            <?php if($resultado['pedido'][0]['id_modalidade'] == 1) { ?>
+                                <?= $resultado['pgto']['nro_parcelas']; ?> X R$ <?= number_format($resultado['pgto']['valor_parcela'],2,",","."); ?><br>
+                                Status de Pagamento: <?= $resultado['pgto']['status']; ?><br>
+                            <?php } ?>
+                            <?= (isset($resultado['pgto']['chave']) ? 'Chave PIX: '.$resultado['pgto']['chave'] : ''); ?><br>
+                            Tipo de Entrega: <?= $resultado['pedido'][0]['forma_envio']; ?><br>
+                            Empresa: <?= $resultado['pedido'][0]['transportadora']; ?>
+                        </div>
+                            <?php if(isset($resultado['pgto']['bandeira'])) { ?>
+                                <div class="col-md-6 col-12">
+                                    <div id="cartao-bandeira" class="text-center">
+                                        Compra autorizada no seu cartão<br>
+                                        <i id="bandeira-simbolo-cliente" class="fa-brands fa-cc-<?= $resultado['pgto']['bandeira']; ?>"></i>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 pb-3">
+                            <hr>
+                            <div>Resumo do Pedido</div>
+                            SUBTOTAL: <div class="float-end">R$ <?= number_format($resultado['pedido'][0]['valor'],2,",","."); ?></div><hr>
+                            FRETE: <div class="float-end">R$ <?= number_format($resultado['pedido'][0]['preco_frete'],2,",","."); ?></div><hr>
+                            TOTAL: <div class="float-end">R$ <?= number_format($resultado['pedido'][0]['valor_com_frete'],2,",","."); ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/pedido_cliente.js"></script>

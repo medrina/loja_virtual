@@ -1,0 +1,49 @@
+<?php
+    include '../views/sections/header.html';
+?>
+<body class="fundo-cinza">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                <a href="/cliente/painel" class="btn btn-primary">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <h1 class="text-center">Editar Categoria ou Subcategoria</h1>
+            <div class="col-4">
+                <h5>Categorias<br>Cadastradas</h5>
+                <div id="categorias-cadastradas-admin">
+                    <select id='categoria-atualizar-admin' class='form-control borda-preta' size='5'>
+                        <?php foreach($listaCategorias as $indice => $valor) { ?>
+                            <option value="<?= $listaCategorias[$indice]['id']; ?>" onclick="editCategoria('<?= $listaCategorias[$indice]['id']; ?>','<?= $listaCategorias[$indice]['nome']; ?>')"><?= $listaCategorias[$indice]['nome']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-8">
+                <h5>Selecione a Categoria à esquerda para poder editá-la</h5>
+                <div id="campo-editar-categoria">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <h5>Subcategorias<br>Cadastradas</h5>
+                <div id="subcategorias-cadastradas-admin">
+                    <select id='subcategoria-atualizar-admin' class='form-control borda-preta' size='5'>
+                        <?php foreach($listaSubcategorias as $indice => $valor) { ?>
+                            <option value="<?= $listaSubcategorias[$indice]['id']; ?>" onclick="editSubCategoria('<?= $listaSubcategorias[$indice]['id']; ?>','<?= $listaSubcategorias[$indice]['nome']; ?>')"><?= $listaSubcategorias[$indice]['nome']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-8">
+                <h5>Selecione a Subcategoria à esquerda para poder editá-la</h5>
+                <div id="campo-editar-subcategoria">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/editar_cat_sub.js"></script>
+</body>

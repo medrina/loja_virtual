@@ -1,0 +1,245 @@
+<?php
+    include '../views/sections/header.html';
+    require_once '../helper/funcoes_adicionais.php';
+    testarLogin();
+?>
+
+<body>
+    <div id="secao-checkout" class="container">
+        <div class="row">
+            <div class="col-10">
+                <a href="/cliente/painel" class="btn btn-primary">Voltar</a>
+            </div>
+            <div class="col-2">
+                <a href="/logoff" class="btn btn-danger">Sair</a>
+            </div>
+        </div>
+        <div class="mb-3">
+            <h1>Checkout</h1>
+        </div>
+        <div id="principal" class="row">
+            <div class="col-12 col-md-2 coluna-secao">
+                <div class="card-espacamento-dados-pessoais text-center p-1 dados"><h5>Dados Pessoais</h5></div>
+                <div class="card-espacamento-dados-pessoais">
+                    <p class="text-center titulo dados">Confirme seus dados de identificação!</p>
+                    <div class="mb-3">
+                        <div class="dados">email: <?= $clienteService->__get('cliente')->getEmail(); ?></div>
+                        <input id="checkout-email" type="text" type="hidden" hidden="true" value="<?= $clienteService->__get('cliente')->getEmail(); ?>">
+                        <div class="dados">Nome: <?= $clienteService->__get('cliente')->getNome(); ?></div>
+                        <div class="dados">Telefone: <?= aplicarMascara($clienteAsaas['telefone'], '(##) #####-####'); ?></div>
+                    </div>
+                    <form id="form-dados-pessoais-checkout">
+                        <input type="text" type="hidden" hidden="true" name="id-dados-pessoais-checkout" value="<?= $clienteService->__get('cliente')->getID(); ?>">
+                        <button id="botao-dados-pessoais-checkout" type="button" class="btn btn-primary form-control botao-confirmacao dados">CONFIRMAR</button> 
+                    </form><br>
+                </div>
+                <span id="teste"></span>
+                <div id="mask-dados-pessoais"></div>
+            </div>
+            <div id="coluna-entrega" class="col-12 col-md-2 coluna-secao">
+                <div class="card-espacamento-entrega text-center p-1 dados">
+                    <h5>Entrega</h5>
+                </div>
+                <div class="card-espacamento-entrega">
+                    <p class="text-center titulo dados">Selecione um Endereço de Entrega</p>
+                    
+                    <?php foreach($listaEnderecosCliente as $indice => $valor) { ?>
+                        <div id="div-endereco-id-<?= $listaEnderecosCliente[$indice]['endereco']->__get('id'); ?>" class="mb-4">
+                            <div id="endereco-radio-id-<?= $listaEnderecosCliente[$indice]['endereco']->__get('id'); ?>" class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input id="endereco-id-<?= $listaEnderecosCliente[$indice]['endereco']->__get('id'); ?>" type="radio" class="radio-frete" name="radio-endereco-checkout" onclick="enderecoRadio(<?= $listaEnderecosCliente[$indice]['endereco']->__get('cep'); ?>,<?= $listaEnderecosCliente[$indice]['endereco']->__get('id'); ?>)">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="dados"><?= $listaEnderecosCliente[$indice]['endereco']->__get('logradouro'); ?></div>
+                                    <div class="dados">Nº: <?= $listaEnderecosCliente[$indice]['endereco']->__get('numero'); ?></div>
+                                    <div class="dados">Complemento: <?= $listaEnderecosCliente[$indice]['endereco']->__get('complemento'); ?></div>
+                                    <div class="dados">Bairro: <?= $listaEnderecosCliente[$indice]['endereco']->__get('bairro'); ?></div>
+                                    <div class="dados">Cidade: <?= $listaEnderecosCliente[$indice]['endereco']->__get('cidade')->__get('nome'); ?></div>
+                                    <div class="dados">Estado: <?= $listaEnderecosCliente[$indice]['endereco']->__get('cidade')->__get('uf'); ?></div>
+                                    <div class="dados">CEP: <?= aplicarMascara($listaEnderecosCliente[$indice]['endereco']->__get('cep'), '#####-###'); ?></div>
+                                </div>
+                            </div>
+                            <div class="caixa-entrega">
+                                <div id="resposta-frete-id-<?= $listaEnderecosCliente[$indice]['endereco']->__get('id'); ?>"></div><hr>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    
+                </div>
+                <div id="mask-entrega" class="mascara-entrega"></div>
+            </div>
+            <div class="col-12 col-md-5 coluna-secao">
+                <div class="card-espacamento-pagamento dados text-center p-1">
+                    <h5>Pagamento</h5>
+                </div>
+                <p class="text-center dados titulo">Escolha a Forma de Pagamento</p>
+                <div class="row">
+                    <div class="col-4">
+                        <div id="opcao-cartao-credito" class="text-center mt-3 mb-3">
+                            <button id="botao-cartao-credito" type="button" class="btn btn-outline-success botao-confirmacao botoes-pgto w-100">Cartão de Crédito</button>
+                        </div>
+                        <div id="opcao-boleto" class="text-center mb-3">
+                            <button id="botao-boleto" type="button" class="btn btn-outline-success botao-confirmacao botoes-pgto w-100">Boleto Bancário</button>
+                        </div>
+                        <div id="opcao-pix" class="text-center mb-3">
+                            <button id="botao-pix" type="button" class="btn btn-outline-success botao-confirmacao botoes-pgto w-100">PIX</button>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div>
+                            <div id="cartao-credito">
+                                <p class="text-center dados mt-2"><b>Pague com Cartão de Crédito</b></p>
+                                <form id="form-cartao-credito">
+                                    <div class="row">
+                                        <label class="dados">Número do cartão</label>
+                                        <div class="w-75 input-dados">
+                                            <input id="numero-cartao" type="tel" class="form-control tam-input-fonte campos-cartao input-nro-cartao" name="numero-cartao-credito-checkout" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="16">
+                                        </div>
+                                        <div id="bandeira-logo" class="w-25"></div>
+                                    </div>
+                                    <div class="dados">
+                                        <label>Nome impresso no cartão</label>
+                                        <input id="nome-cartao" type="text" class="form-control tam-input-fonte letras-maiusculas campos-cartao input-dados" name="nome-cartao-credito-checkout">
+                                        <label>Validade: Mês/Ano</label>
+                                        <input id="mes-ano-cartao" type="tel" class="form-control tam-input-fonte campos-cartao input-dados" name="validade-cartao-credito-checkout">
+                                        <div id="selecao-parcelas"></div>
+                                        <label>Código de segurança</label>
+                                        <input id="cod-seguranca" type="tel" class="form-control tam-input-fonte campos-cartao input-dados" name="codigo-cartao-credito-checkout" maxlength="3">
+                                        <label>CPF do titular</label>
+                                        <input id="cpf-titular" type="tel" class="form-control tam-input-fonte campos-cartao input-dados" name="cpf-cartao-credito-checkout" maxlength="11">
+                                        <input id="val-total-com-frete" type="hidden" hidden="true" name="valor-total-com-frete-checkout">
+                                        <input type="hidden" hidden="true" name="valor-total-sem-frete-checkout" value="<?= $pedidoService->__get('pedido')->__get('valor'); ?>">
+                                        <input id="val-parcela" type="hidden" hidden="true" name="valor-parcela-checkout">
+                                        <input type="hidden" hidden="true" name="modalidade" value="1">
+                                        <input id="id-bandeira" type="hidden" hidden="true" name="id_bandeira_checkout">
+                                        <div id="resp-cpf"></div>
+                                        <button id="botao-selecionar-pgto-cartao" type="button" class="btn btn-primary form-control botao-confirmacao botao-sel-pgto mt-3 mb-3" onclick="selecionarPgto()">SELECIONAR PAGAMENTO</button>
+                                    </div>
+                                </form><br>
+                            </div>
+                        </div>
+                        <div id="boleto" class="dados">
+                            <p class="text-center mt-2"><b>Pague com Boleto Bancário</b></p>
+                            <div class="dados-boleto">
+                                Valor: <span id="valor-total-com-frete-boleto"></span><br>
+                                Vencimento: <span id="data-venc-boleto"></span><br>
+                                <form id="form-boleto">
+                                    <input type="hidden" hidden="true" name="valor-total-sem-frete-checkout" value="<?= $pedidoService->__get('pedido')->__get('valor'); ?>">
+                                    <input id="val-total-com-frete-boleto" type="hidden" hidden="true" name="boleto-checkout">
+                                    <input id="data-vencimento-boleto" type="hidden" hidden="true" name="vencimento-boleto-checkout">
+                                    <input type="hidden" hidden="true" name="modalidade" value="2">
+                                    <button id="botao-selecionar-pgto-boleto" type="button" class="btn btn-primary form-control botao-confirmacao botao-sel-pgto mt-3 mb-3">SELECIONAR PAGAMENTO</button>
+                                </form><br>
+                            </div>
+                        </div>
+                        <div id="pix">
+                            <p class="text-center dados mt-2"><b>Pague com PIX</b></p>
+                            <div>
+                                <div class="mb-2 dados">
+                                    <p>1) Aperte em <b>GERAR CÓDIGO PIX</b> para gerar o código QR</p>
+                                    <a id="gerar-cod-pix" href="#form-pix" class="btn btn-success botao-confirmacao botao-pix">GERAR CÓDIGO PIX</a><br><br>
+                                    <div id="resp-codigo-pix" class="cod-pix"></div>
+                                </div>
+                                <div id="parte2-3-pix" class="dados">
+                                    <p>2) Copie o código Pix e realize o pagamento pelo app do seu banco</p>
+                                    <p>Valor Total: <span id="valor-total-com-frete-pix"></span></p>
+                                    <p>3) Para que o Pix possa ser registrado no seu CPF, clique no botão <b>SELECIONAR PAGAMENTO</b> e em seguida no botão <b>FINALIZAR COMPRA</b></p>
+                                    <form id="form-pix">
+                                        <div class="">
+                                            <input type="hidden" hidden="true" name="valor-total-sem-frete-checkout" value="<?= $pedidoService->__get('pedido')->__get('valor'); ?>">
+                                            <input id="val-total-com-frete-pix" type="hidden" hidden="true" name="pix-checkout">
+                                            <input id="codigo-pix" type="hidden" hidden="true" name="codigo-pix">
+                                            <input type="hidden" hidden="true" name="modalidade" value="3">
+                                            <button id="botao-selecionar-pgto-pix" type="button" class="btn btn-primary form-control botao-confirmacao botao-sel-pix mt-3 mb-3">SELECIONAR PAGAMENTO</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                    </div>
+                </div>
+                <div id="mask-pagamento" class="mascara-pagamento"></div>
+            </div>
+            <div id="coluna-resumo-pedido" class="col-12 col-md-3">
+                <div class="card-espacamento-pedido text-center p-1">
+                    <h5 class="dados">Resumo do Pedido</h5>
+                    <input id="valor-total-pedido-oculto" type="hidden" hidden="true" value="<?= $pedidoService->__get('pedido')->__get('valor') ?>">
+                </div>
+                <div class="row">
+                    <p class="text-center dados titulo">Produtos no seu Carrinho</p>
+                    <div id="produtos-checkbox">
+                        <?php for($i = 0; $i < count($pedidoService->__get('pedido')->__get('carrinho')); $i++) { ?>
+                            <div class="col-12">
+                                <div id="img-posicionamento">
+                                    <img src="/assets/img/<?= $pedidoService->__get('pedido')->__get('carrinho')[$i]['produto']->__get('imagem_path'); ?>" class="img-tam">
+                                </div>
+                                <div>
+                                    <div class="dados">(<b><?= $pedidoService->__get('pedido')->__get('carrinho')[$i]['itens_carrinho']->__get('quantidade'); ?></b>) <?= $pedidoService->__get('pedido')->__get('carrinho')[$i]['produto']->__get('nome'); ?></div>
+                                    <div class="dados">Marca: <?= $pedidoService->__get('pedido')->__get('carrinho')[$i]['produto']->__get('marca')->__get('nome'); ?></div>
+                                    <div class="dados">Preço: R$ <?= number_format($pedidoService->__get('pedido')->__get('carrinho')[$i]['produto']->__get('valor'),2,",","."); ?></div>
+                                    <div class="dados">Total: R$ <?= number_format($pedidoService->__get('pedido')->__get('carrinho')[$i]['itens_carrinho']->__get('valor_total'),2,",","."); ?></div>
+                                </div>
+                            </div>
+                            <br>
+                        <?php } ?>
+                    </div>
+                    <div id="link-voltar-pagamento" class="text-end">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="row">
+                            <div class="col-3 dados">
+                                Subtotal:
+                            </div>
+                            <div class="col-9 dados text-end">
+                                R$ <?= number_format($pedidoService->__get('pedido')->__get('valor'),2,",","."); ?>
+                            </div>
+                        </div>
+                        <input id="pedido-valor-total" type="hidden" hidden="true" value="<?= $pedidoService->__get('pedido')->__get('valor'); ?>"> 
+                    </div>
+                    <hr>
+                    <div class="col-12 mb-3">
+                        <div class="row">
+                            <div class="col-3 dados">
+                                Frete:
+                            </div>
+                            <div class="col-9 dados text-end">
+                                <span id="valor-frete">--------</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-3 dados">
+                                Total
+                            </div>
+                            <div class="col-9 dados text-end">
+                                <span id="valor-total-pedido">R$ <?= number_format($pedidoService->__get('pedido')->__get('valor'),2,",","."); ?></span><br>
+                                <div id="forma-pagamento-resultado">
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="botao-confirmar1">
+                </div>
+                <div id="resumo-dados-pessoais" class="mb-3">
+                </div>
+                <div id="resumo-entrega" class="mb-3">
+                </div>
+                <div id="botao-confirmar2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="capa">
+    </div>
+</body>
+</html>
+<script src="/assets/js/scripts_checkout.js"></script>

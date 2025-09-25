@@ -1,0 +1,58 @@
+<?php
+    require_once '../helper/funcoes_adicionais.php';
+    testarLogin();
+    include '../views/sections/header.html';
+?>
+<body id="x">
+    <div class="container">
+        <div class="row">
+            <?php include_once '../views/sections/topo.phtml'; ?>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="/cliente/painel" class="btn btn-primary botao-voltar-painel">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><h5>Lista de Endereços</h5></div>
+                        <div><a href="/cliente/painel/add-endereco" class="btn btn-primary">Adicionar Endereço</a></div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div id="lista-enderecos" class="row">
+                            <?php if($listaEnderecos == 0) { ?>
+                                <h5 class="text-secondary">Sem endereços cadastrados</h5>
+                            <?php } ?>
+                            <?php if($listaEnderecos) { ?>
+                                <?php foreach($listaEnderecos as $indice => $valor) { ?>
+                                    <div id="endereco-id-<?= $listaEnderecos[$indice]['id']; ?>" class="col-md-6 col-lg-4 col-xl-3">
+                                        <div class="caixa-endereco">
+                                            <div><?= $listaEnderecos[$indice]['logradouro']; ?></div>
+                                            <div>Nº: <?= $listaEnderecos[$indice]['numero']; ?></div>
+                                            <?= !empty($listaEnderecos[$indice]['complemento']) ? '<div>Complemento: '. $listaEnderecos[$indice]['complemento'] .'</div>' : '<div>Complemento: -------</div>'; ?>
+                                            <div>Bairro: <?= $listaEnderecos[$indice]['bairro']; ?></div>
+                                            <div>CEP: <?= $listaEnderecos[$indice]['cep']; ?></div>
+                                            <div>Cidade: <?= $listaEnderecos[$indice]['nome']; ?></div>
+                                            <div>Estado: <?= $listaEnderecos[$indice]['uf']; ?></div>
+                                            <div>
+                                                <a id="editar-endereco-botao" href="/cliente/painel/editar-endereco/<?= $listaEnderecos[$indice]['id']; ?>" class="btn btn-primary">Editar</a>
+                                                <button type="button" class="btn btn-danger" onclick="apagarEndereco(<?= $listaEnderecos[$indice]['id']; ?>)">Apagar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

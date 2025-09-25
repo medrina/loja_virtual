@@ -1,0 +1,40 @@
+<?php
+    include '../views/sections/header.html';
+?>
+<body class="fundo-cinza">
+    <div class="container">
+        <div class="row">
+            <?php include_once '../views/sections/topo.phtml'; ?>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="/cliente/painel" class="btn btn-primary botao-voltar-painel">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><h5>Dados Pessoais do Administrador</h5></div>
+                        <label>e-mail/login</label>
+                        <input type="email" class="form-control bg-light" value="<?= $dados['email'] ?>" readonly>
+                        <hr>
+                        <form id="form-editar-dados-admin">
+                            <label>Nome <sup></sup></label>
+                            <input id="nome-admin" type="text" class="form-control bg-light" value="<?= $dados['nome']; ?>" name="nome">
+                            <hr>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="opcao-alterar-senha-admin">
+                                <label class="form-check-label" for="opcao-alterar-senha-admin">Alterar Senha?</label> 
+                            </div>
+                            <div id="campos-alterar-senhas-admin"></div>
+                            <div class="text-end mt-3">
+                                <a id="botao-salvar-dados-admin" href="#" class="btn btn-primary">Salvar Dados</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

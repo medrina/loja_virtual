@@ -1,0 +1,45 @@
+<?php
+    include '../views/sections/header.html';
+?>
+<body>
+    <h1 class="text-center">Atualizar Produtos</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                <a href="/cliente/painel" class="btn btn-primary">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 col-sm-2">
+                <h3>Categorias</h3>
+                <?php if(empty($cat)) { ?>
+                    <b class="text-danger">Não há Categorias Cadastradas!</b>
+                <?php } ?>
+                <?php if(!empty($cat)) { ?>
+                    <select id="categoria-admin" class="form-control" name="categoria">
+                        <option value="0">--- Selecione ---</option>
+                        <?php foreach($cat as $id => $nome) { ?>
+                            <option value="<?= $cat[$id]['id'] ?>"><?= $cat[$id]['nome'] ?></option>
+                        <?php } ?>
+                    </select>
+                    <br>
+                    <h3>Subcategorias</h3>
+                    <select id="subcategoria-admin" class="form-control">
+                        <option>--------</option>
+                    </select><br><br>
+                <?php } ?>
+            </div>
+            <div class="col-6 col-sm-8">
+                <div id="lista-produtos">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 col-sm-2">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="/assets/js/produto_buscar.js"></script>

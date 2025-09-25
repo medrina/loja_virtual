@@ -1,0 +1,85 @@
+<?php
+    $total = 0;
+    include '../views/sections/header.html';
+    require_once '../helper/funcoes_adicionais.php';
+?>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <a href="/cliente/painel" class="btn btn-primary">Voltar</a>
+            </div>
+            <div class="col-2">
+                <div class="float-end">
+                    <a href="/logoff" class="btn btn-danger">Sair</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <div class="text-center">
+                    <h1>Minhas Compras</h1>
+                </div>
+                <?php if(count($listaPedidos['pedidos']) == 0) { ?>
+                    <h5>Você não possui Pedidos na Loja Virtual!</h5>
+                <?php } ?>
+                <?php if(count($listaPedidos['pedidos']) > 0) { ?>
+                    <div class="row">
+                        <?php for($i = 0; $i < count($listaPedidos['pedidos']); $i++) { ?>
+                            <div class="mb-3 col-lg-6 col-md-12 p-2 lista-pedidos-cliente">
+                            <div class="row">
+                                <div class="col-12">
+                                    Pedido: <?= $listaPedidos['pedidos'][$i]['id']; ?>
+                                    Data: <?php 
+                                                $data = $listaPedidos['pedidos'][$i]['data_compra'];
+                                                $data = explode('-', $data);
+                                                echo $data[2].'/'.$data[1].'/'.$data[0]; 
+                                            ?>
+                                    às <?= $listaPedidos['pedidos'][$i]['hora_compra']; ?> h
+                                    <div class="float-end">
+                                        <form method="GET" action="/cliente/painel/pedido">
+                                            <input type="hidden" hidden="true" name="id_pedido" value="<?= $listaPedidos['pedidos'][$i]['id']; ?>">
+                                            <input type="submit" class="btn btn-success" value="Ver Pedido">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    Status da Entrega: <span><?= $listaPedidos['pedidos'][$i]['status']; ?></span>
+                                </div>
+                                <div class="col-5">
+                                    <div>Endereço de Entrega:</div>
+                                    <div><?= $listaPedidos['pedidos'][$i]['logradouro']; ?></div>
+                                    <div>Nº: <?= $listaPedidos['pedidos'][$i]['numero']; ?></div>
+                                    <?php if(!(empty($listaPedidos['pedidos'][$i]['complemento']))) { ?>
+                                        <div>Complemento: <?= $listaPedidos['pedidos'][$i]['complemento']; ?></div>
+                                    <?php } ?>
+                                    <div>Bairro: <?= $listaPedidos['pedidos'][$i]['bairro']; ?></div>
+                                    <div>CEP: <?= $listaPedidos['pedidos'][$i]['cep']; ?></div>
+                                    <div>Cidade: <?= $listaPedidos['pedidos'][$i]['cidade']; ?></div>
+                                    <div>Estado: <?= $listaPedidos['pedidos'][$i]['uf']; ?></div>
+                                </div>
+                                <div class="col-3">
+                                    <?php for($j = 0; $j < count($listaPedidos['itens'][$i]); $j++) { ?>
+                                        <div class="col-12">
+                                            <div class="text-center img-pedido">
+                                                (<?= $listaPedidos['itens'][$i][$j]['Quant']; ?>)
+                                                <img src="/assets/img/<?= $listaPedidos['itens'][$i][$j]['imagem_path']; ?>" width="60">
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <span>TOTAL: </span><span>R$ <?= number_format($listaPedidos['pedidos'][$i]['valor'],2,",","."); ?></span>
+                        </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</body>

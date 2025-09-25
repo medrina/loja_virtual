@@ -1,0 +1,45 @@
+<?php include '../views/sections/header.html'; ?>
+<body class="fundo-cinza">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                <a href="/cliente/painel" class="btn btn-primary">Voltar</a>
+            </div>
+        </div>
+        <h1>Cadastrar Categoria e Subcategoria</h1>
+        <br>
+        <div class="row mb-3">
+            <div class="col-12">
+                <form id="form-categoria">
+                    <label>Informe a nova Categoria:</label>
+                    <input id="cat_nome" type="text" class="form-control mb-3 borda-preta" name="categoria">
+                    <button type="button" id="botao-adicionar-categoria" class="btn btn-success mb-3">Adicionar</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <h5>Categorias<br>Cadastradas</h5>
+                <div id="categorias-cadastradas">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <form id="form-subcategoria">
+                    <label>Informe a nova Subcategoria:</label>
+                    <input id="sub_nome" type="text" class="form-control mb-3 borda-preta" name="subcategoria">
+                    <button type="button" id="botao-adicionar-subcategoria" class="btn btn-success mb-3">Adicionar</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-12">
+                <h5>Subcategorias<br>Cadastradas</h5>
+                <div id="subcategorias-cadastradas">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/add_cat_sub.js"></script>

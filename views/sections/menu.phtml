@@ -1,0 +1,47 @@
+<?php
+    $menu = [];
+    foreach ($cat as $item) {
+        $id = $item['id_categoria'];
+        $menu[$id]['id'] = $item['id_categoria'];
+        $menu[$id]['nome'] = $item['categoria'];
+        $menu[$id]['subcategorias'][] = [
+            'id' => $item['id_subcategoria'],
+            'nome' => $item['subcategoria']
+        ];
+    }
+?>
+
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Loja Virtual</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar" aria-controls="menuNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menuNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <?php foreach ($menu as $categoria): ?>
+                    <?php if (!empty($categoria['subcategorias'])): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown<?= $categoria['id'] ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <?= htmlspecialchars($categoria['nome']) ?>
+                            </a>
+                            <ul class="dropdown-menu submenu" aria-labelledby="dropdown<?= $categoria['id'] ?>">
+                                <?php foreach ($categoria['subcategorias'] as $sub): ?>
+                                    <li><a id="sub-<?= $sub['id'] ?>" href="#" data-id="<?= $sub['id'] ?>">
+                                        <?= htmlspecialchars($sub['nome']) ?>
+                                    </a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><?= htmlspecialchars($categoria['nome']) ?></a>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="/assets/js/menu.js"></script>

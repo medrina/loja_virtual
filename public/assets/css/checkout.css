@@ -1,0 +1,264 @@
+div#secao-checkout {
+    font-size: 12px;
+}
+.titulo {
+    font-weight: bold;
+    font-size: 14px;
+}
+.cor-fundo-titulo {
+    background-color: #D3D3D3;
+}
+.card-espacamento-dados-pessoais {
+    position: relative;
+    right: 0.75rem;
+    width: 112%;
+    height: auto;
+    z-index: 1;
+}
+.mascara-dados-pessoais {
+    background-color: #000000;
+    position: relative;
+    width: 116%; height: 95%;
+    bottom: 250px; right: 13px;
+    opacity: 88%;
+    z-index: 2;
+}
+.card-espacamento-entrega {
+    position: relative;
+    right: 0.75rem;
+    width: 108%;
+    height: auto;
+    z-index: 1;
+    z-index: 1;
+}
+.mascara-entrega {
+    background-color: #000000;
+    position: absolute;
+    opacity: 88%;
+    z-index: 2;
+}
+.card-espacamento-pagamento {
+    position: relative;
+    right: 0.75rem;
+    width: 104.5%;
+    z-index: 1;
+}
+.mascara-pagamento {
+    background-color: #000000;
+    position: relative;
+    width: 105%; height: 100%;
+    bottom: 230px; right: 13px;
+    opacity: 88%;
+    z-index: 2;
+}
+.card-espacamento-pedido {
+    position: relative;
+    right: 0.75rem;
+    width: 112%;
+}
+#cartao-credito, #boleto, #pix, #parte2-3-pix {
+    display: none;
+}
+.coluna-secao {
+    border: 1px dotted;
+}
+.botao-confirmacao {
+    font-size: 10px;
+}
+#erro-cartao {
+    font-size: 0.8em;
+}
+.bandeira-simbolo {
+    font-size: 2.3em;
+}
+.caixa-pagamento {
+    border: 1px solid;
+    padding: 5px;
+    background-color: #D3D3D3;
+    border-radius: 10px;
+}
+.caixa-pagamento:hover {
+    background-color: #87CEFA;
+    cursor: pointer;
+}
+.marcar-endereco {
+    border: 3px solid;
+    background-color: #D3D3D3;
+}
+.tam-input-fonte {
+    font-size: 12px;
+}
+.letras-maiusculas {
+    text-transform: uppercase;
+}
+.sticky-element {
+    position: sticky;
+    top: 0;
+}
+#icone-copiar-pix {
+    font-size: 2em;
+    margin-left: 1em;
+}
+#img-posicionamento {
+    float: left;
+    height: 90px;
+    margin-right: 1em;
+}
+.img-tam {
+    width: 50px;
+}
+#coluna-resumo-pedido {
+    border: 1px dotted;
+    position: sticky;
+    top: 0;
+}
+.status-entrega {
+    font-size: 20px;
+}
+.capa {
+    width: 100%; height: 100%;
+    background-color: white;
+    opacity: 90%;
+    position: absolute;
+    bottom: 1px;
+    z-index: 2;
+}
+.spinner-checkout {
+    font-size: 30px;
+}
+/* media-queries */
+@media screen and (min-width: 400px) and (max-width: 575.99px) {
+    #botao-dados-pessoais-checkout {
+        width: 92%;
+    }
+    .input-nro-cartao {
+        font-size: 1.4em;
+    }
+    .bandeira-simbolo {
+        font-size: 3.2em;
+    }
+    #erro-cartao {
+        font-size: 1em;
+    }
+    .espaco-fretes {
+        width: 80%;
+    }
+    .botoes-pgto, .botao-sel-pix {
+        font-size: 1.4em;
+    }
+    .botao-sel-pgto {
+        font-size: 1em;
+    }
+    .botao-pix {
+        font-size: 1em;
+    }
+    .cod-pix {
+        font-size: 0.83em;
+    }
+    .botao-final-compra {
+        font-size: 1.6em;
+    }
+    .dados-boleto {
+        font-size: 1em;
+    }
+    .input-dados {
+        font-size: 1em;
+    }
+    .dados {
+        font-size: 1.5em;
+    }
+    #parcelas-titulo {
+        font-size: 20px;
+    }
+    #numero-parcelas {
+        font-size: 20px;
+    }
+    .dados-opcoes-pgto {
+        font-size: 20px;
+    }
+    #botao-selecionar-pgto-pix {
+        font-size: 18px;
+    }
+    .dados-end {
+        font-size: 1.1em;
+    }
+    .radio-frete {
+        width: 20px;
+        height: 20px;
+        border: 2px solid;
+        border-radius: 50%;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    .radio-frete:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .img-tam {
+        width: 100px;
+    }
+    .dados-forma-pgto {
+        font-size: 18px;
+    }
+}
+@media screen and (min-width: 576px) and (max-width: 767.99px) {
+    #botao-dados-pessoais-checkout {
+        width: 90%;
+    }
+    .bandeira-simbolo {
+        font-size: 3.2em;
+    }
+    #erro-cartao {
+        font-size: 1em;
+    }
+    #botao-dados-pessoais-checkout {
+        width: 50%;
+    }
+    .botoes-pgto, .botao-sel-pix {
+        font-size: 1.4em;
+    }
+    .botao-sel-pgto {
+        font-size: 1em;
+    }
+    .dados-boleto {
+        font-size: 1em;
+    }
+    .input-dados {
+        font-size: 1em;
+    }
+    .botao-pix {
+        font-size: 1em;
+    }
+    .cod-pix {
+        font-size: 1em;
+    }
+    .dados {
+        font-size: 1.5em;
+    }
+    .dados-end {
+        font-size: 1.1em;
+    }
+    .img-tam {
+        width: 100px;
+    }
+    .radio-frete {
+        width: 20px;
+        height: 20px;
+        border: 2px solid;
+        border-radius: 50%;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    #opcao-cartao-credito {
+        font-size: 30px;
+    }
+    #botao-cartao-credito {
+        font-size: 0.5em;
+    }
+    .botao-final-compra {
+        font-size: 1.6em;
+    }
+    .dados-forma-pgto {
+        font-size: 18px;
+    }
+}

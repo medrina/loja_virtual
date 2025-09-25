@@ -1,0 +1,177 @@
+/* modal */
+#modalSignin {
+    display: none;
+    width: 87%;
+    height: 80%;
+}
+/* topo */
+#botao-home {
+    margin-top: 1.5em;
+}
+.botao-voltar-painel {
+    position: relative;
+    bottom: 2em;
+}
+.botao-sair {
+    position: relative;
+    top: 1.5em;
+}
+/* sidebar cliente */
+#lista-sidebar {
+    list-style: none;
+    padding: 0;
+}
+a.links-sidebar {
+    text-decoration: none;
+}
+/* sidebar adm */
+ul.links-sidebar-adm {
+    list-style: none;
+    padding: 0;
+}
+ul.links-sidebar-adm li a {
+    text-decoration: none;
+}
+ul.links-sidebar-adm li a:hover {
+    text-decoration: underline;
+}
+/* página home */
+.home-produto-caixa {
+    padding: 0.7em;
+}
+.home-produto-nome {
+    font-size: 14px;
+}
+.home-produto-marca, .home-produto-preco {
+    font-size: 12px;
+}
+.home-produto-condicoes {
+    font-size: 10px;
+}
+.home-produto-botao-VerProduto {
+    font-size: 12px;
+}
+/* login */
+#login {
+    background: #2C3E50;
+}
+/* submenu subcategorias */
+ul.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    background-color: #444;
+    margin: 0;
+    padding: 0;
+    min-width: 180px;
+}
+ul.submenu li a {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+ul.submenu li a:hover {
+    background-color: #666;
+}
+ul.menu > li:hover .submenu {
+    display: block;
+}
+/* lista de endereços */
+.caixa-endereco {
+    background: #D3D3D3;
+    margin: 10px;
+}
+#editar-endereco-botao {
+    margin-right: 1em;
+}
+/* adicionar endereço */
+.mensagem-erro-preencher-dados {
+    font-size: 18px;
+}
+.spinner-cep {
+    font-size: 1.2em;
+}
+/* editar endereço */
+.msg-erro-editar-endereco {
+    font-size: 22px;
+}
+/* cliente - pedidos */
+.lista-pedidos-cliente {
+    border: 1px dotted #000000;
+}
+.img-pedido {
+    padding: 0.7em;
+}
+/* checkout - outro arquivo */
+/* adm - editar dados pessoais */
+.fundo-cinza {
+    background: #D3D3D3;
+}
+#calendario {
+    margin-right: 1.1em;
+}
+.caixa-pedidos-adm {
+    border: 1px solid #000000;
+}
+/* adm - pedido */
+#pedido-adm, #pedido-cliente {
+    border: 2px solid #000000;
+}
+.borda-dir {
+    border-right: 1px dotted #000000;
+}
+#bandeira-simbolo, #bandeira-simbolo-cliente {
+    font-size: 3.3em;
+}
+/* adm - adicionar categoria/subcategoria */
+.borda-preta {
+    border: 1px solid #000000;
+}
+.borda-azul {
+    border: 1px solid #0000FF;
+}
+/* adm - cadastrar produto */
+#coluna-botao-calcular-parcelas {
+    width: 100px;
+}
+#coluna-simbolo-igual {
+    width: 45px;
+}
+/* adm - buscar produtos */
+#lista-produtos {
+    margin-top: 150px;
+}
+.altura-img-buscar-produtos {
+    height: 120px;
+}
+/* carrinho de compras cliente */
+.produto-borda-carrinho {
+    border: 1px dotted #000000;
+}
+.produto-fundo-carrinho {
+    background: #D3D3D3;
+}
+.link-produto-carrinho {
+    text-decoration: none;
+}
+#aumentarDiminuirItem {
+    display: flex;
+}
+button#diminuir-quantidade {
+    margin-left: 30px;
+}
+.campo-quantidade-produtos-carrinho {
+    width: 50%;
+}
+.produto-centralizar-elementos-carrinho {
+    align-items: center;
+}
+.negrito {
+    font-weight: bold;
+}
+.botao-remover-produto-carrinho {
+    font-size: 12px;
+}

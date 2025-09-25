@@ -1,0 +1,42 @@
+<?php
+  $erro = '';
+  if(isset($_GET['erro'])) {
+    if($_GET['erro'] == 3) $erro = 'ATENÇÃO! Você não está logado!!!';
+    else if($_GET['erro'] == 4) $erro = 'ATENÇÃO! Você não possui permissão de acesso!!!';
+  }
+?>
+
+<body>
+  <div id="login">
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <?php if(!empty($erro)) { ?>
+                <span class="text-danger"><?= $erro; ?></span>
+            <?php } ?>
+            <?php session_start() ?>
+            <?php if(!(isset($_SESSION['nome']))) { ?>
+                <div class="col-4">
+                  <a class="btn btn-outline-primary" href="/login">Login</a>
+                </div>
+            <?php } ?>
+            <?php if(isset($_SESSION['nome'])) { ?>
+              <div class="col-4">
+                <span class="text-white">Olá, <b><?= $_SESSION['nome']; ?></b></span>
+              </div>
+              <input id="link-logoff" type="text" hidden="true" value="ola"><br><br>
+              <div class="col-4">
+              <form action="/cliente/painel" method="GET">
+                  <input type="submit" class="btn btn-primary" value="Meu Painel">
+              </form>
+              </div>
+              <div class="col-4 text-end">
+              <a href="/logoff" class="btn btn-danger">Sair</a>
+              </div>
+            <?php } ?>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>

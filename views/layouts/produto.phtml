@@ -1,0 +1,40 @@
+<?php
+    include '../views/sections/header.html';
+?>
+
+<body>
+    
+    <?php include('../views/sections/logo_login.phtml'); ?>
+    <div class="container">
+        <a href="/" class="btn btn-success m-3">Loja</a>
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div>
+                    <img src="../assets/img/<?= $produto['imagem']; ?>" height="100%" width="100%">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <br>
+                <h1><?= $produto['produto']; ?></h1>
+                <p>Marca: <?= $produto['marca']; ?></p>
+                <p>Descrição: <?= $produto['descricao']; ?></p>
+                <p>Cor: <?= $produto['cor']; ?></p>
+                <p>Valor Total: R$ <?= number_format($produto['valor'],2,",","."); ?></p>
+                <?php if($produto['nro_parcelas'] > 1) { ?>
+                    <p><?= $produto['nro_parcelas']; ?> X R$ <?= number_format($produto['valor_parcela'],2,",","."); ?></p>
+                <?php } ?>
+                <button type="button" id="botao-add-carrinho" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalSignin">Adicionar ao Carrinho</button>
+                <div id="resposta-adicionar-carrinho"></div>
+            </div>
+        </div>
+    </div>
+    <?php
+        if(!isset($_SESSION['nome'])) {
+            include '../views/layouts/login-modal.html';
+        }
+    ?>
+    <form id="form-adicionar-produto">
+        <input name="id" type="text" hidden="true" value="<?= $produto['id_produto']?>">
+    </form>
+</body>
+</html>

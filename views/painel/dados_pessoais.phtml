@@ -1,0 +1,43 @@
+<?php
+    require '../helper/funcoes_adicionais.php';
+    testarLogin();
+    include '../views/sections/header.html';
+    if(!empty($dadosClienteAsaas['telefone'])) $telefone = aplicarMascara($dadosClienteAsaas['telefone'], '(##) #####-####');
+    if(!empty($dadosClienteAsaas['cpf'])) $cpf = aplicarMascara($dadosClienteAsaas['cpf'], '###.###.###-##');
+?>
+<body>
+    <div class="container">
+        <div class="row">
+            <?php include_once '../views/sections/topo.phtml'; ?>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="/cliente/painel" class="btn btn-primary botao-voltar-painel">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><h5>Dados Pessoais</h5></div>
+                        <p>Nome: <?= $dados['nome']; ?></p>
+                        <p>E-mail: <?= $dados['email'] ?></p>
+                        <p>Telefone: <?= empty($dadosClienteAsaas['telefone']) ? '?' : $telefone; ?> </p>
+                        <p>CPF: <?= empty($dadosClienteAsaas['cpf']) ? '?' : $cpf; ?> </p>
+                        <hr>
+                        <?php if(empty($dadosClienteAsaas['telefone']) || empty($dadosClienteAsaas['cpf'])) { ?>
+                            <p>Olá <?= $dados['nome'] ?>, para comprar em nossa loja, você precisará informar um telefone para contato e o seu CPF.
+                            Por gentileza, informe esses dados abaixo, clicando no botão <b>Editar Dados</b></p>
+                        <?php } ?>
+                        <div class="text-end mt-3">
+                            <a id="editar-dados" href="/cliente/painel/editar-dados" class="btn btn-primary">Editar Dados</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

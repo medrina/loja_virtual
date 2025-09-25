@@ -1,0 +1,275 @@
+CREATE DATABASE loja;
+#--------------------------------------------------------------------
+USE loja;
+#--------------------------------------------------------------------
+CREATE TABLE categoria(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE subcategoria(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE aux_cat_sub(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_categoria INT NOT NULL,
+    id_subcategoria INT NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE marca(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE produto(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(80) NOT NULL,
+    descricao TEXT,
+    cor VARCHAR(20),
+    imagem_path VARCHAR(80),
+    valor FLOAT NOT NULL,
+    nro_parcelas INT,
+    valor_parcela FLOAT,
+    altura INT,
+    largura INT,
+    comprimento INT,
+    peso FLOAT,
+    `status` CHAR(1),
+    id_subcategoria INT NOT NULL,
+    id_marca INT NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE cidade(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(80) NOT NULL,
+    uf CHAR(2) NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE endereco(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    logradouro VARCHAR(100) NOT NULL,
+    numero VARCHAR(10),
+    complemento VARCHAR(5),
+    bairro VARCHAR(50) NOT NULL,
+    cep CHAR(8) NOT NULL,
+    `status` BOOLEAN,
+    id_cliente INT NOT NULL,
+    id_cidade INT NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE carrinho(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_cliente INT NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE itens_carrinho(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    quantidade INT NOT NULL,
+    valor_total FLOAT NOT NULL,
+    preco_unit FLOAT,
+    `status` BOOLEAN,
+    id_carrinho INT NOT NULL,
+    id_produto INT NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE cliente(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(80) NOT NULL,
+    email VARCHAR(80) NOT NULL UNIQUE,
+    senha VARCHAR(80) NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE cliente_asaas(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    telefone VARCHAR(15),
+    cpf CHAR(11),
+    id_cliente INT
+);
+#--------------------------------------------------------------------
+CREATE TABLE pedido(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    data_compra DATE,
+    dia INT,
+    mes INT,
+    ano INT,
+    hora_compra TIME,
+    valor FLOAT,
+    lista_itens_carrinho TEXT,
+    id_carrinho INT NOT NULL
+);
+#--------------------------------------------------------------------
+CREATE TABLE bandeira(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(30)
+);
+
+INSERT INTO bandeira(id, nome) VALUES(1, 'visa');
+INSERT INTO bandeira(id, nome) VALUES(2, 'mastercard');
+INSERT INTO bandeira(id, nome) VALUES(3, 'amex');
+INSERT INTO bandeira(id, nome) VALUES(4, 'diners-club');
+INSERT INTO bandeira(id, nome) VALUES(5, 'discover');
+
+#NOTA: é necessário inserir esses dados na tabela bandeira, para que o Sistema detecte a bandeira do cartão de crédito que o usuário cliente informe
+#--------------------------------------------------------------------
+CREATE TABLE pix(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    valor FLOAT,
+    chave VARCHAR(200)
+);
+#--------------------------------------------------------------------
+CREATE TABLE boleto(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    valor FLOAT,
+    valor_taxa FLOAT,
+    nro_parcelas CHAR(2),
+    data_vencimento DATE
+);
+#--------------------------------------------------------------------
+CREATE TABLE cartao_credito(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    valor_parcela FLOAT,
+    nro_parcelas INT,
+    data_validade CHAR(7),
+    id_bandeira INT
+);
+#--------------------------------------------------------------------
+CREATE TABLE modalidade(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(40)
+);
+
+INSERT INTO modalidade(id, tipo) VALUES(1, 'cartão');
+INSERT INTO modalidade(id, tipo) VALUES(2, 'boleto');
+INSERT INTO modalidade(id, tipo) VALUES(3, 'pix');
+
+#NOTA: é necessário inserir esses dados na tabela modalidade, para que o Sistema detecte o tipo de pagamento que o usuário cliente informe
+#--------------------------------------------------------------------
+CREATE TABLE pagamento(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `status` VARCHAR(20),
+    id_cliente INT,
+    id_modalidade INT,
+    id_tipo_tabela INT,
+    id_entrega INT
+);
+#--------------------------------------------------------------------
+CREATE TABLE transportadora(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(30)
+);
+
+INSERT INTO transportadora(id, nome) VALUES(1, 'Correios');
+INSERT INTO transportadora(id, nome) VALUES(2, 'Jadlog');
+
+#NOTA: é necessário inserir esses dados na tabela transportadora, para que o Sistema apresente as empresas de entrega disponíveis ao usuário cliente
+#--------------------------------------------------------------------
+CREATE TABLE forma_envio (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(30),
+    id_transportadora INT
+);
+
+INSERT INTO forma_envio(id, nome, id_transportadora) VALUES(1, '.Package', 2);
+INSERT INTO forma_envio(id, nome, id_transportadora) VALUES(2, 'SEDEX', 1);
+INSERT INTO forma_envio(id, nome, id_transportadora) VALUES(3, 'PAC', 1);
+INSERT INTO forma_envio(id, nome, id_transportadora) VALUES(4, '.Com', 2);
+
+#NOTA: é necessário inserir esses dados na tabela forma_envio, para que o Sistema apresente as formas de envio disponíveis ao usuário cliente
+#-------------------------------------------------------------------
+CREATE TABLE frete(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    valor FLOAT,
+    id_forma_envio INT
+);
+#--------------------------------------------------------------------
+CREATE TABLE entrega(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    tempo_entrega int,
+    `status` VARCHAR(20),
+    data_entrega DATE,
+    valor_com_frete FLOAT,
+    id_endereco INT,
+    id_cliente INT,
+    id_pedido INT,
+    id_frete INT
+);
+#--------------------------------------------------------------------
+CREATE TABLE fatura(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    data_emissao DATE,
+    hora_emissao TIME,
+    valor_total FLOAT,
+    valor_icms FLOAT,
+    valor_frete FLOAT,
+    id_pagamento INT
+);
+#====================================================================
+#REFERENCES
+
+ALTER TABLE aux_cat_sub ADD CONSTRAINT fk_id_categoria_tb_categoria
+FOREIGN KEY(id_categoria) REFERENCES categoria(id);
+
+ALTER TABLE aux_cat_sub ADD CONSTRAINT fk_id_subcategoria_tb_subcategoria
+FOREIGN KEY(id_subcategoria) REFERENCES subcategoria(id);
+
+ALTER TABLE produto ADD CONSTRAINT fk_id_subcategoria_tb_subcategorias
+FOREIGN KEY(id_subcategoria) REFERENCES subcategoria(id);
+
+ALTER TABLE produto ADD CONSTRAINT fk_id_marca_tb_marca
+FOREIGN KEY(id_marca) REFERENCES marca(id);
+
+ALTER TABLE endereco ADD CONSTRAINT fk_id_cliente_tb_cliente
+FOREIGN KEY(id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE endereco ADD CONSTRAINT fk_id_cidade_tb_cidade
+FOREIGN KEY(id_cidade) REFERENCES cidade(id);
+
+ALTER TABLE carrinho ADD CONSTRAINT fk_id_cliente_tb_clientes
+FOREIGN KEY(id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE itens_carrinho ADD CONSTRAINT fk_id_carrinho_tb_carrinho
+FOREIGN KEY(id_carrinho) REFERENCES carrinho(id);
+
+ALTER TABLE itens_carrinho ADD CONSTRAINT fk_id_produto_tb_produto
+FOREIGN KEY(id_produto) REFERENCES produto(id);
+
+ALTER TABLE cliente_asaas ADD CONSTRAINT fk_id_cliente_tb_client
+FOREIGN KEY(id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE pedido ADD CONSTRAINT fk_id_carrinho_tb_carrinh
+FOREIGN KEY(id_carrinho) REFERENCES carrinho(id);
+
+ALTER TABLE cartao_credito ADD CONSTRAINT fk_id_bandeira_tb_bandeira
+FOREIGN KEY(id_bandeira) REFERENCES bandeira(id);
+
+ALTER TABLE pagamento ADD CONSTRAINT fk_id_cliente_tb_clients
+FOREIGN KEY(id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE pagamento ADD CONSTRAINT fk_id_modalidade_tb_modalidade
+FOREIGN KEY(id_modalidade) REFERENCES modalidade(id);
+
+ALTER TABLE pagamento ADD CONSTRAINT fk_id_entrega_tb_entrega
+FOREIGN KEY(id_entrega) REFERENCES entrega(id);
+
+ALTER TABLE forma_envio ADD CONSTRAINT fk_id_transportadora_tb_transportadora
+FOREIGN KEY(id_transportadora) REFERENCES transportadora(id);
+
+ALTER TABLE frete ADD CONSTRAINT fk_id_forma_envio_tb_forma_envio
+FOREIGN KEY(id_forma_envio) REFERENCES forma_envio(id);
+
+ALTER TABLE entrega ADD CONSTRAINT fk_id_endereco_tb_endereco
+FOREIGN KEY(id_endereco) REFERENCES endereco(id);
+
+ALTER TABLE entrega ADD CONSTRAINT fk_id_cliente_tb_cliente_
+FOREIGN KEY(id_cliente) REFERENCES cliente(id);
+
+ALTER TABLE entrega ADD CONSTRAINT fk_id_pedido_tb_pedido
+FOREIGN KEY(id_pedido) REFERENCES pedido(id);
+
+ALTER TABLE entrega ADD CONSTRAINT fk_id_frete_tb_frete
+FOREIGN KEY(id_frete) REFERENCES frete(id);
+
+ALTER TABLE fatura ADD CONSTRAINT fk_id_pagamento_tb_pagamento
+FOREIGN KEY(id_pagamento) REFERENCES pagamento(id);

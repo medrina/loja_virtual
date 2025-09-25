@@ -1,0 +1,77 @@
+<?php
+    require '../helper/funcoes_adicionais.php';
+    testarLogin();
+    $cep = aplicarMascara('94065100', '#####-###');
+?>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja</title>
+    <link href="/assets/fontawesome-free-6.7.2-web/css/fontawesome.css" rel="stylesheet" />
+    <link href="/assets/fontawesome-free-6.7.2-web/css/brands.css" rel="stylesheet" />
+    <link href="/assets/fontawesome-free-6.7.2-web/css/solid.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/estilos.css">
+    <link rel="stylesheet" href="/assets/css/checkout.css">
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/jquery.maskedinput.js"></script>
+    <script src="/assets/js/scripts.js"></script>
+  </head>
+<body>
+    <div class="container">
+        <div class="row">
+            <?php include_once '../views/sections/topo.phtml'; ?>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="/cliente/painel/lista-enderecos" class="btn btn-primary botao-voltar-painel">Voltar</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-12">
+                    <div id="msg-atualizar-endereco"></div>
+                        <form id="form-editar-endereco" novalidate>
+                            <h4>Editar esse Endereço de Entrega</h4>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label>Nº *</label>
+                                    <input class="form-control mb-4 campo_form_cliente campo-obrigatorio" type="text" name="numero" value="<?= $endereco['numero']; ?>">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Complemento<sup>opcional</sup></label>
+                                    <input class="form-control" type="text" name="complemento" value="<?= $endereco['complemento']; ?>">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>CEP *</label>
+                                    <input id="cep" class="form-control mb-4 campo_form_cliente bg-light editar-cep campo-obrigatorio" type="text" name="cep" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="8" value="<?= $endereco['cep']; ?>">
+                                    <div id="msg-erro"></div>
+                                </div>
+                            </div>
+                            <label>Rua/Avenida</label>
+                            <input id="rua" class="form-control mb-4 bg-light campo-obrigatorio" type="text" name="logradouro" readonly value="<?= $endereco['logradouro']; ?>">
+                            <label>Bairro</label>
+                            <input id="bairro" class="form-control mb-4 bg-light campo-obrigatorio" type="text" name="bairro" readonly value="<?= $endereco['bairro']; ?>">
+                            <label>Cidade</label>
+                            <input id="cidade" class="form-control mb-4 bg-light campo-obrigatorio" type="text" name="cidade" readonly value="<?= $endereco['nome']; ?>">
+                            <label>UF</label>
+                            <input id="uf" class="form-control mb-4 bg-light campo-obrigatorio" type="text" name="uf" readonly value="<?= $endereco['uf']; ?>">
+                            <input type="hidden" hidden="true" name="id_endereco" value="<?= $endereco['id_endereco']; ?>">
+                            <input type="hidden" hidden="true" name="id_cidade" value="<?= $endereco['id_cidade']; ?>">
+                            <button class="form-control btn btn-success" type="button" id="botao-enviar-editar-dados">Atualizar Endereço</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

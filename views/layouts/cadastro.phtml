@@ -1,0 +1,25 @@
+<?php
+    include '../views/sections/header.html';
+?>
+<body>
+    <div class="container">
+        <a href="/login" class="btn btn-primary">Voltar</a>
+        <?php if(isset($_GET['erro']) == 1) { ?>
+            <div class="bg-danger-subtle text-danger-emphasis text-danger mt-3 p-3 mb-1 text-center msg-erro-editar-endereco">Por Favor, preencha todos os campos abaixo corretamente!</div>
+        <?php } ?>
+        <?php if(isset($_GET['err']) == 2) { ?>
+            <div class="bg-danger-subtle text-danger-emphasis text-danger mt-3 p-3 mb-1 text-center msg-erro-editar-endereco">Esse email já foi cadastrado!</div>
+        <?php } ?>
+        <h1>Criar Cadastro</h1>
+        <form method="POST" action="/login/enviar-cad" novalidate>
+            <h4>Dados</h4>
+            <label>Nome</label>
+            <input class="form-control mb-4 campo_form_cliente" type="text" name="nome">
+            <label>E-mail</label>
+            <input class="form-control mb-4 campo_form_cliente" type="email" name="email">
+            <label>Senha</label>
+            <input class="form-control mb-5 campo_form_cliente" type="password" name="senha">
+            <input class="form-control btn btn-success" type="submit" id="botao-enviar-login" value="Criar Cadastro">
+        </form>
+    </div>
+</body>

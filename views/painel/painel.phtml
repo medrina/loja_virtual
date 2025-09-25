@@ -1,0 +1,91 @@
+<?php
+    $total = 0;
+    include '../views/sections/header.html';
+    require_once '../helper/funcoes_adicionais.php';
+    testarLogin();
+?>
+<body>
+    <div class="container">
+        <div class="row">
+            <?php if(isset($_GET['erro']) == 3) { ?>
+                <span class="text-danger">ATENÇÃO! Operação não permitida!</span>
+            <?php } ?>
+            <?php include_once '../views/sections/topo.phtml'; ?>
+        </div>
+        <div class="row">
+            <?php if($_SESSION['id'] == 1) { ?>
+                <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar-admin.phtml'; ?>
+                </div>
+                <div class="col-md-10">
+                    <h3>Painel do Administrador</h3>
+                    <?php include '../views/painel/lista_pedidos.phtml'; ?>
+                </div>
+            <?php } ?>
+            <?php if($_SESSION['id'] != 1) { ?>
+                <div class="col-md-2">
+                <?php include_once '../views/sections/sidebar.phtml'; ?>
+            </div>
+            <div class="col-md-10">
+                <h3>Carrinho de Compras</h3>
+                    <?php if($_SESSION['status_carrinho']) { ?>
+                        <?php foreach($this->arrayProdutos as $indice => $valor) { ?>
+                            <div class="row mb-3 produto-borda-carrinho">
+                                <div class="col-2">
+                                    <div>
+                                        <img src="../assets/img/<?= $this->arrayProdutos[$indice]['produto']->__get('imagem_path') ?>" height="100%" width="100%">
+                                    </div>
+                                </div>
+                                <div class="col-6 produto-fundo-carrinho">
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-6">
+                                            <div class="produto-centralizar-elementos-carrinho">
+                                                <a href="/produto/<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>" class="link-produto-carrinho"><?= $this->arrayProdutos[$indice]['produto']->__get('nome') ?></a><br>
+                                                <span class="negrito">Marca: </span><?= $this->arrayProdutos[$indice]['produto']->__get('marca')->__get('nome') ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div id="aumentarDiminuirItem">
+                                                <button id="diminuir-quantidade" type="button" class="btn btn-primary" onclick="diminuirQuantidade(<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>, <?= $_SESSION['id_carrinho'] ?>)">-</button>
+                                                <input type="text" class="text-center campo-quantidade-produtos-carrinho" id="quantidade-<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>" value="<?= $this->arrayProdutos[$indice]['itens_carrinho']->__get('quantidade') ?>" readonly>
+                                                <button id="aumentar-quantidade" type="button" class="btn btn-primary" onclick="aumentarQuantidade(<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>, <?= $_SESSION['id_carrinho'] ?>)">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 fundo-cinza">
+                                    <div id="valores" class="row">
+                                        <div class="col-12 col-xl-7">
+                                            <input id="valor-unitario-php-<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>" type="hidden" hidden="true" value="<?= $this->arrayProdutos[$indice]['produto']->__get('valor') ?>">
+                                            <span class="negrito">Preço:</span> R$ <span id="valor-unitario-<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>"><?= number_format($this->arrayProdutos[$indice]['produto']->__get('valor'),2,",","."); ?></span><br>
+                                            <span class="negrito">Total:</span> <span id="valor-total-<?= $this->arrayProdutos[$indice]['produto']->__get('id'); ?>"><?php echo 'R$ '. number_format($this->arrayProdutos[$indice]['itens_carrinho']->__get('valor_total'),2,",","."); ?></span><br>
+                                        </div>
+                                        <div class="col-12 col-xl-5 mt-3 mb-2">
+                                            <button type="button" class="btn btn-danger botao-remover-produto-carrinho" data-id="<?= $this->arrayProdutos[$indice]['itens_carrinho']->__get('id'); ?>" onclick="removerProduto(<?= $this->arrayProdutos[$indice]['itens_carrinho']->__get('id'); ?>)">Remover</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php $total += $this->arrayProdutos[$indice]['itens_carrinho']->__get('valor_total') ?>
+                        <?php } ?>
+                    <?php if($_SESSION['status_carrinho']) { ?>
+                        <b>TOTAL:&nbsp;&nbsp; <span id="valor-total-carrinho"><?php echo 'R$ '. number_format($total,2,",","."); ?></b></span>
+                        <input id="valor-total-php" type="text" hidden="true" value="<?= $total; ?>">
+                    <?php } ?>
+                    </table>
+                <?php } ?>
+                <?php if(!$_SESSION['status_carrinho']) { ?>
+                    <h5 class="text-success">Ops, o seu carrinho está vazio!</h5>
+                <?php } ?>
+                <?php if($_SESSION['status_carrinho']) { ?>
+                    <form action="/checkout" method="POST">
+                        <input id="vlr-total" type="hidden" hidden="true" name="valor_total" value="<?= $total ?>">
+                        <input type="submit" id="botao-comprar" class="btn btn-success mt-4" value="Comprar">
+                    </form>
+                <?php } ?>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</body>
